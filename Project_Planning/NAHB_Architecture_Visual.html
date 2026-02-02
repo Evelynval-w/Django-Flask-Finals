@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NAHB Architecture - Visual Reference</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 40px;
+        }
+        
+        /* Architecture Diagram */
+        .architecture {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .layer {
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+        }
+        .layer-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Client Layer */
+        .client-layer {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        }
+        .roles {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .role-box {
+            background: rgba(255,255,255,0.2);
+            padding: 15px 25px;
+            border-radius: 12px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        .role-icon {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+        
+        /* Django Layer */
+        .django-layer {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        }
+        .components {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .component {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        .component-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            padding-bottom: 5px;
+        }
+        
+        /* Design Patterns */
+        .patterns {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        .pattern {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #1a1a2e;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        /* Flask Layer */
+        .flask-layer {
+            background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+        }
+        .endpoints {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        .endpoint {
+            background: rgba(255,255,255,0.2);
+            padding: 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+        .endpoint.protected {
+            border: 2px solid #fbbf24;
+        }
+        
+        /* Database Layer */
+        .db-layer {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+        }
+        .databases {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .database {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 12px;
+        }
+        .db-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .tables {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .table {
+            background: rgba(255,255,255,0.3);
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+        
+        /* Arrows */
+        .arrow {
+            text-align: center;
+            padding: 10px;
+            font-size: 1.5rem;
+            color: #7c3aed;
+        }
+        .arrow-label {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+        
+        /* Design Patterns Section */
+        .patterns-section {
+            margin-top: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 25px;
+        }
+        .patterns-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .pattern-card {
+            background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid;
+        }
+        .pattern-card.singleton { border-color: #fbbf24; }
+        .pattern-card.factory { border-color: #22c55e; }
+        .pattern-card.mediator { border-color: #ec4899; }
+        .pattern-card.memento { border-color: #0ea5e9; }
+        .pattern-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .pattern-class {
+            font-family: monospace;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        .pattern-why {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        /* Timeline */
+        .timeline-section {
+            margin-top: 40px;
+        }
+        .timeline {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .sprint {
+            flex: 1;
+            min-width: 200px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 15px;
+        }
+        .sprint-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .sprint-name {
+            font-weight: bold;
+        }
+        .sprint-level {
+            background: #7c3aed;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        .sprint-days {
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+        .sprint-focus {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 NAHB - Not Another Hero's Book</h1>
+        <p class="subtitle">System Architecture & Design Patterns | Target: Level 18/20</p>
+        
+        <div class="architecture">
+            <!-- Client Layer -->
+            <div class="layer client-layer">
+                <div class="layer-title">
+                    <span>🌐</span> CLIENT LAYER (Browser)
+                </div>
+                <div class="roles">
+                    <div class="role-box">
+                        <div class="role-icon">📖</div>
+                        <div>Reader</div>
+                        <small>Play Stories</small>
+                    </div>
+                    <div class="role-box">
+                        <div class="role-icon">✍️</div>
+                        <div>Author</div>
+                        <small>Create Stories</small>
+                    </div>
+                    <div class="role-box">
+                        <div class="role-icon">⚙️</div>
+                        <div>Admin</div>
+                        <small>Moderate</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="arrow">⬇️ <span class="arrow-label">HTTP/HTML</span></div>
+            
+            <!-- Django Layer -->
+            <div class="layer django-layer">
+                <div class="layer-title">
+                    <span>🐍</span> DJANGO APPLICATION (Game Engine + UI + Auth)
+                </div>
+                <div class="components">
+                    <div class="component">
+                        <div class="component-title">Views Layer</div>
+                        Controllers for all pages
+                    </div>
+                    <div class="component">
+                        <div class="component-title">Templates</div>
+                        Bootstrap 5 UI
+                    </div>
+                    <div class="component">
+                        <div class="component-title">Authentication</div>
+                        Django Auth + Roles
+                    </div>
+                    <div class="component">
+                        <div class="component-title">Sessions</div>
+                        Auto-save Progress
+                    </div>
+                </div>
+                <div class="patterns">
+                    <div class="pattern">🔷 Singleton: FlaskAPIClient</div>
+                    <div class="pattern">🏭 Factory: StoryFactory</div>
+                    <div class="pattern">🔗 Mediator: GameMediator</div>
+                    <div class="pattern">💾 Memento: GameStateMemento</div>
+                </div>
+            </div>
+            
+            <div class="arrow">⬇️ <span class="arrow-label">HTTP/JSON REST API</span></div>
+            
+            <!-- Flask Layer -->
+            <div class="layer flask-layer">
+                <div class="layer-title">
+                    <span>🧪</span> FLASK REST API (Story Storage)
+                </div>
+                <div class="endpoints">
+                    <div class="endpoint">GET /stories</div>
+                    <div class="endpoint">GET /stories/:id</div>
+                    <div class="endpoint">GET /pages/:id</div>
+                    <div class="endpoint protected">POST /stories 🔐</div>
+                    <div class="endpoint protected">PUT /stories/:id 🔐</div>
+                    <div class="endpoint protected">DELETE /stories/:id 🔐</div>
+                    <div class="endpoint protected">POST /pages 🔐</div>
+                    <div class="endpoint protected">POST /choices 🔐</div>
+                </div>
+                <small style="margin-top: 10px; display: block; opacity: 0.8;">🔐 = Requires X-API-KEY header</small>
+            </div>
+            
+            <div class="arrow">⬇️ <span class="arrow-label">SQLAlchemy / Django ORM</span></div>
+            
+            <!-- Database Layer -->
+            <div class="layer db-layer">
+                <div class="layer-title">
+                    <span>🗄️</span> DATABASE LAYER
+                </div>
+                <div class="databases">
+                    <div class="database">
+                        <div class="db-title">
+                            <span>🟢</span> Django DB (Gameplay)
+                        </div>
+                        <div class="tables">
+                            <span class="table">User</span>
+                            <span class="table">Play</span>
+                            <span class="table">PlaySession</span>
+                            <span class="table">Rating</span>
+                            <span class="table">Comment</span>
+                            <span class="table">Report</span>
+                        </div>
+                    </div>
+                    <div class="database">
+                        <div class="db-title">
+                            <span>🩷</span> Flask DB (Content)
+                        </div>
+                        <div class="tables">
+                            <span class="table">Story</span>
+                            <span class="table">Page</span>
+                            <span class="table">Choice</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Design Patterns Justification -->
+        <div class="patterns-section">
+            <h2>🎯 Design Patterns Justification</h2>
+            <div class="patterns-grid">
+                <div class="pattern-card singleton">
+                    <div class="pattern-name">Singleton</div>
+                    <div class="pattern-class">FlaskAPIClient</div>
+                    <div class="pattern-why">
+                        <strong>Why:</strong> Ensures single HTTP connection pool, prevents duplicate connections, centralizes API key management, easy to mock for testing.
+                    </div>
+                </div>
+                <div class="pattern-card factory">
+                    <div class="pattern-name">Factory</div>
+                    <div class="pattern-class">StoryFactory</div>
+                    <div class="pattern-why">
+                        <strong>Why:</strong> Encapsulates complex object creation, validates data before API calls, ensures consistent structure, supports different story types.
+                    </div>
+                </div>
+                <div class="pattern-card mediator">
+                    <div class="pattern-name">Mediator</div>
+                    <div class="pattern-class">GameMediator</div>
+                    <div class="pattern-why">
+                        <strong>Why:</strong> Decouples gameplay components (page, choices, dice, stats), single control point, easy to add features, simplifies testing.
+                    </div>
+                </div>
+                <div class="pattern-card memento">
+                    <div class="pattern-name">Memento</div>
+                    <div class="pattern-class">GameStateMemento</div>
+                    <div class="pattern-why">
+                        <strong>Why:</strong> Preserves encapsulation, enables save/restore without exposing internals, serializable for storage, enables path visualization.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Timeline -->
+        <div class="timeline-section">
+            <h2>📅 Development Timeline</h2>
+            <div class="timeline">
+                <div class="sprint">
+                    <div class="sprint-header">
+                        <span class="sprint-name">Sprint 1</span>
+                        <span class="sprint-level">Level 10</span>
+                    </div>
+                    <div class="sprint-days">Days 1-2</div>
+                    <div class="sprint-focus">MVP: CRUD + Basic Gameplay</div>
+                </div>
+                <div class="sprint">
+                    <div class="sprint-header">
+                        <span class="sprint-name">Sprint 2</span>
+                        <span class="sprint-level">Level 13</span>
+                    </div>
+                    <div class="sprint-days">Day 3</div>
+                    <div class="sprint-focus">Search, Auto-save, UX</div>
+                </div>
+                <div class="sprint">
+                    <div class="sprint-header">
+                        <span class="sprint-name">Sprint 3</span>
+                        <span class="sprint-level">Level 16</span>
+                    </div>
+                    <div class="sprint-days">Day 4</div>
+                    <div class="sprint-focus">Auth, Roles, API Key</div>
+                </div>
+                <div class="sprint">
+                    <div class="sprint-header">
+                        <span class="sprint-name">Sprint 4</span>
+                        <span class="sprint-level">Level 18</span>
+                    </div>
+                    <div class="sprint-days">Days 5-6</div>
+                    <div class="sprint-focus">Ratings, Reports, Visualization</div>
+                </div>
+                <div class="sprint">
+                    <div class="sprint-header">
+                        <span class="sprint-name">Sprint 5</span>
+                        <span class="sprint-level">Deploy</span>
+                    </div>
+                    <div class="sprint-days">Day 7</div>
+                    <div class="sprint-focus">Tests, Docker, Docs</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

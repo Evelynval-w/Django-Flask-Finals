@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-02-02T14:00:00.000Z" agent="Claude" version="24.0.0" type="device">
+  <diagram id="data-flow" name="Data Flow &amp; Interactions">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title" value="NAHB - Data Flow &amp; Component Interactions" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#1a1a2e;" vertex="1" parent="1">
+          <mxGeometry x="285" y="10" width="600" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- SECTION 1: Story Creation Flow -->
+        <mxCell id="section1-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1565c0;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="20" y="50" width="550" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="section1-title" value="1️⃣ STORY CREATION FLOW (Author)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#1565c0;" vertex="1" parent="1">
+          <mxGeometry x="30" y="55" width="300" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Author Actor -->
+        <mxCell id="author1" value="✍️&#xa;Author" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#1976d2;strokeColor=#0d47a1;" vertex="1" parent="1">
+          <mxGeometry x="50" y="100" width="30" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Django Create Form -->
+        <mxCell id="django-form" value="Django&#xa;Create Form" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#388e3c;" vertex="1" parent="1">
+          <mxGeometry x="120" y="110" width="80" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Story Factory -->
+        <mxCell id="factory1" value="StoryFactory&#xa;«Factory»" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9c4;strokeColor=#f57f17;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="230" y="110" width="90" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- API Client -->
+        <mxCell id="api-client1" value="APIClient&#xa;«Singleton»" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9c4;strokeColor=#f57f17;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="110" width="90" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Flask API -->
+        <mxCell id="flask1" value="Flask&#xa;REST API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8bbd9;strokeColor=#c2185b;" vertex="1" parent="1">
+          <mxGeometry x="470" y="110" width="80" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Arrows for creation flow -->
+        <mxCell id="arr1" value="1. Submit" style="endArrow=classic;html=1;fontSize=10;fontColor=#666666;" edge="1" parent="1">
+          <mxGeometry x="-0.2" y="10" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="80" y="125" as="sourcePoint" />
+            <mxPoint x="120" y="125" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arr2" value="2. Create" style="endArrow=classic;html=1;fontSize=10;fontColor=#666666;" edge="1" parent="1">
+          <mxGeometry x="-0.2" y="10" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="200" y="125" as="sourcePoint" />
+            <mxPoint x="230" y="125" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arr3" value="3. Send" style="endArrow=classic;html=1;fontSize=10;fontColor=#666666;" edge="1" parent="1">
+          <mxGeometry x="-0.2" y="10" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="320" y="125" as="sourcePoint" />
+            <mxPoint x="350" y="125" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arr4" value="4. POST" style="endArrow=classic;html=1;fontSize=10;fontColor=#9c27b0;fontStyle=1;strokeColor=#9c27b0;strokeWidth=2;" edge="1" parent="1">
+          <mxGeometry x="-0.2" y="10" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="440" y="125" as="sourcePoint" />
+            <mxPoint x="470" y="125" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Explanation box -->
+        <mxCell id="explain1" value="Factory Pattern creates properly structured&#xa;Story, Page, and Choice objects before&#xa;sending to Flask API via Singleton client" style="text;html=1;strokeColor=#666666;fillColor=#eeeeee;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="30" y="180" width="230" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Data flow detail -->
+        <mxCell id="data1" value="X-API-KEY header&#xa;for authentication" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#ffcdd2;strokeColor=#b71c1c;fontSize=10;align=left;" vertex="1" parent="1">
+          <mxGeometry x="350" y="180" width="110" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- SECTION 2: Gameplay Flow -->
+        <mxCell id="section2-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#2e7d32;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="590" y="50" width="550" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="section2-title" value="2️⃣ GAMEPLAY FLOW (Reader)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#2e7d32;" vertex="1" parent="1">
+          <mxGeometry x="600" y="55" width="300" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Reader Actor -->
+        <mxCell id="reader1" value="📖&#xa;Reader" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#43a047;strokeColor=#1b5e20;" vertex="1" parent="1">
+          <mxGeometry x="620" y="100" width="30" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Game Mediator -->
+        <mxCell id="mediator1" value="GameMediator&#xa;«Mediator»" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9c4;strokeColor=#f57f17;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="690" y="100" width="100" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Components managed by mediator -->
+        <mxCell id="comp1" value="Page&#xa;Display" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#388e3c;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="820" y="85" width="60" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="comp2" value="Choice&#xa;Handler" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#388e3c;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="820" y="125" width="60" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="comp3" value="Stats&#xa;Tracker" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#388e3c;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="900" y="85" width="60" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="comp4" value="Dice&#xa;Roller" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#388e3c;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="900" y="125" width="60" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- State Memento -->
+        <mxCell id="memento1" value="Memento&#xa;(Auto-save)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9c4;strokeColor=#f57f17;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="980" y="100" width="80" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Mediator arrows -->
+        <mxCell id="marr1" style="endArrow=classic;html=1;strokeColor=#666666;dashed=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="790" y="115" as="sourcePoint" />
+            <mxPoint x="820" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="marr2" style="endArrow=classic;html=1;strokeColor=#666666;dashed=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="790" y="135" as="sourcePoint" />
+            <mxPoint x="820" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="explain2" value="Mediator coordinates all gameplay&#xa;components without tight coupling.&#xa;Memento saves state for resume later." style="text;html=1;strokeColor=#666666;fillColor=#eeeeee;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="600" y="180" width="200" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Session/Cookie note -->
+        <mxCell id="session-note" value="Session ID stored&#xa;in cookie for&#xa;anonymous save" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#e8f5e9;strokeColor=#2e7d32;fontSize=10;align=left;" vertex="1" parent="1">
+          <mxGeometry x="980" y="170" width="90" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- SECTION 3: Database Separation -->
+        <mxCell id="section3-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#e65100;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="20" y="300" width="1120" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="section3-title" value="3️⃣ DATA SEPARATION &amp; STORAGE STRATEGY" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#e65100;" vertex="1" parent="1">
+          <mxGeometry x="30" y="305" width="400" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Django Data Box -->
+        <mxCell id="django-data" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#388e3c;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="340" width="520" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="django-data-title" value="DJANGO DATABASE - Gameplay &amp; User Data" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1;fontColor=#2e7d32;" vertex="1" parent="1">
+          <mxGeometry x="50" y="345" width="350" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="dj-user" value="User&#xa;• id, username&#xa;• email, password&#xa;• role (enum)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#388e3c;align=left;fontSize=10;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="55" y="370" width="90" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="dj-play" value="Play&#xa;• id, story_id (FK)&#xa;• user_id (FK)&#xa;• ending_page_id&#xa;• created_at" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#388e3c;align=left;fontSize=10;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="155" y="370" width="100" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="dj-session" value="PlaySession&#xa;• session_id&#xa;• story_id (FK)&#xa;• current_page_id&#xa;• path (JSON)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#388e3c;align=left;fontSize=10;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="265" y="370" width="100" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="dj-rating" value="Rating&#xa;• user_id (FK)&#xa;• story_id (FK)&#xa;• stars (1-5)&#xa;• comment" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#388e3c;align=left;fontSize=10;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="375" y="370" width="85" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="dj-report" value="Report&#xa;• user_id (FK)&#xa;• story_id (FK)&#xa;• reason&#xa;• status" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#388e3c;align=left;fontSize=10;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="470" y="370" width="80" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Flask Data Box -->
+        <mxCell id="flask-data" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8bbd9;strokeColor=#c2185b;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="340" width="520" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="flask-data-title" value="FLASK DATABASE - Story Content (Immutable during play)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1;fontColor=#c2185b;" vertex="1" parent="1">
+          <mxGeometry x="610" y="345" width="400" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fl-story" value="Story&#xa;• id, title&#xa;• description&#xa;• status (draft/published/suspended)&#xa;• start_page_id (FK)&#xa;• author_id&#xa;• illustration_url" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#e91e63;align=left;fontSize=10;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="620" y="370" width="160" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-page" value="Page&#xa;• id, story_id (FK)&#xa;• text (content)&#xa;• is_ending (bool)&#xa;• ending_label&#xa;• illustration_url" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#e91e63;align=left;fontSize=10;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="800" y="370" width="140" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-choice" value="Choice&#xa;• id, page_id (FK)&#xa;• text&#xa;• next_page_id (FK)&#xa;• dice_required&#xa;• min_roll" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#e91e63;align=left;fontSize=10;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="960" y="370" width="140" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- SECTION 4: API Contract -->
+        <mxCell id="section4-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ede7f6;strokeColor=#512da8;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="20" y="500" width="1120" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="section4-title" value="4️⃣ FLASK API CONTRACT (Endpoints)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#512da8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="505" width="350" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Read Endpoints -->
+        <mxCell id="read-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d1c4e9;strokeColor=#7e57c2;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="540" width="520" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="read-title" value="📖 READ ENDPOINTS (Public - No Auth)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;fontColor=#512da8;" vertex="1" parent="1">
+          <mxGeometry x="50" y="545" width="280" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ep1" value="GET /stories?status=published&#xa;→ List all published stories&#xa;→ Returns: [{id, title, description, rating_avg}]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#7e57c2;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="55" y="570" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ep2" value="GET /stories/&lt;id&gt;&#xa;→ Get story details&#xa;→ Returns: {id, title, description, status}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#7e57c2;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="305" y="570" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ep3" value="GET /stories/&lt;id&gt;/start&#xa;→ Get starting page&#xa;→ Returns: {page_id, text, choices}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#7e57c2;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="55" y="625" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ep4" value="GET /pages/&lt;id&gt;&#xa;→ Get page with choices&#xa;→ Returns: {id, text, is_ending, choices[]}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#7e57c2;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="305" y="625" width="240" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Write Endpoints -->
+        <mxCell id="write-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcdd2;strokeColor=#c62828;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="540" width="520" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="write-title" value="✍️ WRITE ENDPOINTS (Protected - X-API-KEY Required)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;fontColor=#c62828;" vertex="1" parent="1">
+          <mxGeometry x="610" y="545" width="350" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ep5" value="POST /stories&#xa;→ Create new story&#xa;→ Body: {title, description}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#c62828;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="615" y="570" width="155" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ep6" value="PUT /stories/&lt;id&gt;&#xa;→ Update story&#xa;→ Body: {title, status}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#c62828;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="780" y="570" width="155" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ep7" value="DELETE /stories/&lt;id&gt;&#xa;→ Delete story" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#c62828;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="945" y="570" width="155" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ep8" value="POST /stories/&lt;id&gt;/pages&#xa;→ Add page to story&#xa;→ Body: {text, is_ending}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#c62828;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="615" y="625" width="155" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ep9" value="POST /pages/&lt;id&gt;/choices&#xa;→ Add choice to page&#xa;→ Body: {text, next_page_id}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#c62828;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="780" y="625" width="155" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ep10" value="PUT /stories/&lt;id&gt;/suspend&#xa;→ Admin: suspend story&#xa;→ Sets status=suspended" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#c62828;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="945" y="625" width="155" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- SECTION 5: Design Pattern Justifications -->
+        <mxCell id="section5-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#880e4f;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="20" y="720" width="1120" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="section5-title" value="5️⃣ DESIGN PATTERN JUSTIFICATIONS" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#880e4f;" vertex="1" parent="1">
+          <mxGeometry x="30" y="725" width="350" height="25" as="geometry" />
+        </mxCell>
+
+        <mxCell id="just1" value="🔹 SINGLETON (FlaskAPIClient)&#xa;Why: Ensures single HTTP connection pool, prevents&#xa;duplicate connections, centralizes API key management" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#880e4f;align=left;fontSize=10;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="40" y="755" width="260" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="just2" value="🔹 FACTORY (StoryFactory)&#xa;Why: Encapsulates complex object creation logic,&#xa;validates data before API calls, ensures consistency" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#880e4f;align=left;fontSize=10;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="310" y="755" width="260" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="just3" value="🔹 MEDIATOR (GameMediator)&#xa;Why: Decouples gameplay components, coordinates&#xa;page display, choices, dice, stats without tight coupling" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#880e4f;align=left;fontSize=10;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="580" y="755" width="260" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="just4" value="🔹 MEMENTO (GameStateMemento)&#xa;Why: Enables save/restore of game state without&#xa;exposing internal structure, supports auto-save" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#880e4f;align=left;fontSize=10;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="850" y="755" width="260" height="55" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
