@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  flask-api:
+    build: ./flask_api
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+      - DATABASE_URL=sqlite:///nahb_stories.db
+      - API_KEY=${API_KEY:-secret-api-key}
+    volumes:
+      - flask-data:/app/instance
+
+  django-app:
+    build: ./django_app
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_ENV=production
+      - SECRET_KEY=${SECRET_KEY:-change-in-production}
+      - FLASK_API_URL=http://flask-api:5000
+      - FLASK_API_KEY=${API_KEY:-secret-api-key}
+    depends_on:
+      - flask-api
+    volumes:
+      - django-data:/app
+
+volumes:
+  flask-data:
+  django-data:
