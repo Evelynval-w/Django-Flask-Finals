@@ -78,28 +78,28 @@ python manage.py runserver
 ### Browse Stories
 ![Browse Stories](docs/screenshots/01_browse_stories.png)
 
-### Story Detail with Ratings
+### About page
 ![Story Detail](docs/screenshots/02_about.png)
 
-### Gameplay
+### Help page
 ![Gameplay](docs/screenshots/03_help.png)
 
-### Dice Roll Mechanic
+### Story Details with Rating  and Tree
 ![Dice Roll](docs/screenshots/04_story_detail.png)
 
-### Story Tree Visualization
+### Game play
 ![Story Tree](docs/screenshots/05_gameplay.png)
 
-### Author Dashboard
+### Login page
 ![Author Dashboard](docs/screenshots/06_login_page.png)
 
-### Create Story
+### Admin moderation
 ![Create Story](docs/screenshots/07_Mod2.png)
 
-### Create Page with Choices
+### Moderation
 ![Create Page](docs/screenshots/07_moderation.png)
 
-### Login Page
+### Dice roll
 ![Login](docs/screenshots/08_dice_roll.png)
 
 
