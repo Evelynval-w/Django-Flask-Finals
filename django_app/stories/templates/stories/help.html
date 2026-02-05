@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %}Help - NAHB{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="mb-4">❓ Help Center</h1>
+
+            <div class="accordion" id="helpAccordion">
+                <!-- For Readers -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#readersHelp">
+                            📚 For Readers
+                        </button>
+                    </h2>
+                    <div id="readersHelp" class="accordion-collapse collapse show" data-bs-parent="#helpAccordion">
+                        <div class="accordion-body">
+                            <h6>How do I play a story?</h6>
+                            <p>Browse stories, click "View Story", then click "Play" to start. Make choices by clicking the buttons to progress through the story.</p>
+                            
+                            <h6>What are dice rolls?</h6>
+                            <p>Some choices require a dice roll. You'll need to roll a certain number or higher to succeed. If you fail, you may need to try a different path.</p>
+                            
+                            <h6>Is my progress saved?</h6>
+                            <p>Yes! Your progress is automatically saved. You can close the browser and continue later.</p>
+                            
+                            <h6>How do I rate a story?</h6>
+                            <p>After viewing a story, you can rate it from 1-5 stars. You must be logged in to rate.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- For Authors -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#authorsHelp">
+                            ✍️ For Authors
+                        </button>
+                    </h2>
+                    <div id="authorsHelp" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                        <div class="accordion-body">
+                            <h6>How do I create a story?</h6>
+                            <p>Go to Author Dashboard → Create New Story. Fill in the title, description, and optionally add a cover image URL.</p>
+                            
+                            <h6>How do I add pages?</h6>
+                            <p>After creating a story, click "+ Add Page". Write your content and mark if it's an ending page.</p>
+                            
+                            <h6>How do I connect pages with choices?</h6>
+                            <p>On any page, use the "Add Choice" section. Enter the choice text and select which page it leads to.</p>
+                            
+                            <h6>How do I add dice rolls?</h6>
+                            <p>When creating a choice, check "Dice required" and set the minimum roll needed (1-6).</p>
+                            
+                            <h6>How do I publish my story?</h6>
+                            <p>Stories start as drafts. Click "Publish" when your story is ready for readers.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Help -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accountHelp">
+                            👤 Account Help
+                        </button>
+                    </h2>
+                    <div id="accountHelp" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                        <div class="accordion-body">
+                            <h6>User Roles</h6>
+                            <ul>
+                                <li><strong>Reader:</strong> Browse and play stories, rate, comment</li>
+                                <li><strong>Author:</strong> All reader abilities + create and manage stories</li>
+                                <li><strong>Admin:</strong> All abilities + moderate content and users</li>
+                            </ul>
+                            
+                            <h6>How do I become an author?</h6>
+                            <p>Contact an administrator to upgrade your account to author status.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reporting -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#reportingHelp">
+                            🚨 Reporting Issues
+                        </button>
+                    </h2>
+                    <div id="reportingHelp" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                        <div class="accordion-body">
+                            <h6>How do I report inappropriate content?</h6>
+                            <p>On any story page, click "Report" and describe the issue. Our moderation team will review it.</p>
+                            
+                            <h6>What happens after I report?</h6>
+                            <p>Admins review reports and may suspend stories that violate guidelines.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="{% url 'stories:list' %}" class="btn btn-primary">Back to Stories</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

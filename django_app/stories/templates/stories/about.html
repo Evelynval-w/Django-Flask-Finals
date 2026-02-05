@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}About - NAHB{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="mb-4">📖 About NAHB</h1>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">What is NAHB?</h5>
+                    <p class="card-text">
+                        <strong>NAHB (Not Another Hero's Book)</strong> is an interactive storytelling platform 
+                        inspired by classic "Choose Your Own Adventure" books. Our platform allows authors to 
+                        create branching narrative stories and readers to experience them through meaningful choices.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Features</h5>
+                    <ul>
+                        <li><strong>Interactive Stories:</strong> Make choices that affect the story's outcome</li>
+                        <li><strong>Multiple Endings:</strong> Discover different paths and endings</li>
+                        <li><strong>Dice Rolls:</strong> Some choices involve chance with dice mechanics</li>
+                        <li><strong>Auto-Save:</strong> Your progress is saved automatically</li>
+                        <li><strong>Story Visualization:</strong> See the story tree and your path</li>
+                        <li><strong>Community:</strong> Rate, comment, and share your favorite stories</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Architecture</h5>
+                    <p class="card-text">
+                        NAHB uses a two-tier microservices architecture:
+                    </p>
+                    <ul>
+                        <li><strong>Flask API:</strong> Handles story content storage (stories, pages, choices)</li>
+                        <li><strong>Django App:</strong> Manages user experience (authentication, gameplay, community)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Design Patterns</h5>
+                    <ul>
+                        <li><strong>Singleton:</strong> FlaskAPIClient - Single API connection instance</li>
+                        <li><strong>Factory:</strong> StoryFactory - Story creation with validation</li>
+                        <li><strong>Mediator:</strong> GameMediator - Coordinates gameplay components</li>
+                        <li><strong>Memento:</strong> GameStateMemento - Saves and restores game state</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="{% url 'stories:list' %}" class="btn btn-primary">Browse Stories</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

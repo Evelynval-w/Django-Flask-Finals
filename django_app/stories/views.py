@@ -77,3 +77,12 @@ def story_detail(request, story_id):
         'stats': stats,
         'user_rating': user_rating
     })
+
+
+def about(request):
+    """About page"""
+    return render(request, 'stories/about.html')
+
+def help_page(request):
+    """Help page"""
+    return render(request, 'stories/help.html')
