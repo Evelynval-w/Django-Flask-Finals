@@ -3,7 +3,7 @@
 An interactive storytelling platform inspired by
 "Choose Your Own Adventure" books.
 
-## 🎯 Features
+##  Features
 
 - **Authors** create branching narrative stories
 - **Readers** play through stories making choices
@@ -19,7 +19,7 @@ Two-application architecture:
 - **Django App** (Port 8000): Game engine, UI, 
 authentication
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 - Python 3.11+
