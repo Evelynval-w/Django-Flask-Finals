@@ -79,34 +79,29 @@ python manage.py runserver
 ![Browse Stories](docs/screenshots/01_browse_stories.png)
 
 ### Story Detail with Ratings
-![Story Detail](docs/screenshots/02_story_detail.png)
+![Story Detail](docs/screenshots/02_about.png)
 
 ### Gameplay
-![Gameplay](docs/screenshots/03_gameplay.png)
+![Gameplay](docs/screenshots/03_help.png)
 
 ### Dice Roll Mechanic
-![Dice Roll](docs/screenshots/04_dice_roll.png)
+![Dice Roll](docs/screenshots/04_story_detail.png)
 
 ### Story Tree Visualization
-![Story Tree](docs/screenshots/05_story_tree.png)
+![Story Tree](docs/screenshots/05_gameplay.png)
 
 ### Author Dashboard
-![Author Dashboard](docs/screenshots/06_author_dashboard.png)
+![Author Dashboard](docs/screenshots/06_login_page.png)
 
 ### Create Story
-![Create Story](docs/screenshots/07_create_story.png)
+![Create Story](docs/screenshots/07_Mod2.png)
 
 ### Create Page with Choices
-![Create Page](docs/screenshots/08_create_page.png)
+![Create Page](docs/screenshots/07_moderation.png)
 
 ### Login Page
-![Login](docs/screenshots/09_login.png)
+![Login](docs/screenshots/08_dice_roll.png)
 
-### About Page
-![About](docs/screenshots/10_about.png)
-
-### Help Page
-![Help](docs/screenshots/11_help.png)
 
 ## 📁 Project Structure
 ```
