@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Preview: {{ story.title }}{% endblock %}
+
+{% block content %}
+<div class="alert alert-warning">
+    <i class="bi bi-eye"></i> <strong>Preview Mode</strong> - This is how readers will see your story. Plays are not recorded.
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h4>{{ story.title }}</h4>
+    </div>
+    <div class="card-body">
+        <div class="story-page">
+            {{ page.text|linebreaks }}
+        </div>
+        
+        {% if page.is_ending %}
+        <div class="alert alert-success mt-4">
+            <h4>{{ page.ending_label|default:"The End" }}</h4>
+            <a href="{% url 'author:edit_story' story.id %}" class="btn btn-primary">Back to Editor</a>
+        </div>
+        {% else %}
+        <hr>
+        <h5>Choices:</h5>
+        {% for choice in page.choices %}
+        <a href="?page={{ choice.next_page_id }}" class="btn btn-outline-primary d-block mb-2 text-start">
+            {{ choice.text }}
+            {% if choice.dice_required %}
+            <span class="badge bg-warning float-end">🎲 ≥{{ choice.min_roll }}</span>
+            {% endif %}
+        </a>
+        {% empty %}
+        <p class="text-danger">No choices configured for this page!</p>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

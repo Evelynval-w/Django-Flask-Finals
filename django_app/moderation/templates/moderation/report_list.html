@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Reports{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-flag"></i> Reports</h1>
+    
+    <div class="btn-group">
+        <a href="{% url 'moderation:report_list' %}" class="btn btn-outline-secondary {% if not status_filter %}active{% endif %}">All</a>
+        {% for status_value, status_label in statuses %}
+        <a href="?status={{ status_value }}" class="btn btn-outline-secondary {% if status_filter == status_value %}active{% endif %}">
+            {{ status_label }}
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Story</th>
+                    <th>Reporter</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in reports %}
+                <tr>
+                    <td>#{{ report.id }}</td>
+                    <td>Story #{{ report.story_id }}</td>
+                    <td>{{ report.user.username }}</td>
+                    <td>
+                        <span class="badge {% if report.status == 'pending' %}bg-danger{% elif report.status == 'resolved' %}bg-success{% else %}bg-secondary{% endif %}">
+                            {{ report.status }}
+                        </span>
+                    </td>
+                    <td>{{ report.created_at|date:"M d, Y" }}</td>
+                    <td>
+                        <a href="{% url 'moderation:report_detail' report.id %}" class="btn btn-sm btn-outline-primary">
+                            Review
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted py-4">No reports found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

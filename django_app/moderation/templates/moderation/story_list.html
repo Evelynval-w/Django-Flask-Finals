@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block title %}Story Moderation{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-book"></i> All Stories</h1>
+    
+    <div class="btn-group">
+        <a href="{% url 'moderation:story_list' %}" class="btn btn-outline-secondary {% if not status_filter %}active{% endif %}">All</a>
+        <a href="?status=draft" class="btn btn-outline-secondary {% if status_filter == 'draft' %}active{% endif %}">Draft</a>
+        <a href="?status=published" class="btn btn-outline-secondary {% if status_filter == 'published' %}active{% endif %}">Published</a>
+        <a href="?status=suspended" class="btn btn-outline-secondary {% if status_filter == 'suspended' %}active{% endif %}">Suspended</a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Author ID</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for story in stories %}
+                <tr>
+                    <td>#{{ story.id }}</td>
+                    <td>{{ story.title }}</td>
+                    <td>{{ story.author_id }}</td>
+                    <td>
+                        <span class="badge {% if story.status == 'published' %}bg-success{% elif story.status == 'suspended' %}bg-danger{% else %}bg-warning{% endif %}">
+                            {{ story.status }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{% url 'stories:detail' story.id %}" class="btn btn-sm btn-outline-primary" target="_blank">
+                            View
+                        </a>
+                        {% if story.status != 'suspended' %}
+                        <form method="post" action="{% url 'moderation:suspend_story' story.id %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Suspend this story?')">
+                                Suspend
+                            </button>
+                        </form>
+                        {% else %}
+                        <form method="post" action="{% url 'moderation:unsuspend_story' story.id %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-outline-success">
+                                Restore
+                            </button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-4">No stories found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

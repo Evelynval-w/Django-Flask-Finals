@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Publish: {{ story.title }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0"><i class="bi bi-check-circle"></i> Publish Story</h4>
+            </div>
+            <div class="card-body">
+                <h5>{{ story.title }}</h5>
+                <p class="text-muted">{{ story.description }}</p>
+                
+                <hr>
+                
+                <h6>Pre-publish Checklist</h6>
+                <ul class="list-group mb-3">
+                    <li class="list-group-item d-flex align-items-center">
+                        {% if tree.nodes|length >= 2 %}
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        {% else %}
+                        <i class="bi bi-x-circle-fill text-danger me-2"></i>
+                        {% endif %}
+                        At least 2 pages ({{ tree.nodes|length }} pages)
+                    </li>
+                    <li class="list-group-item d-flex align-items-center">
+                        {% if story.start_page_id %}
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        {% else %}
+                        <i class="bi bi-x-circle-fill text-danger me-2"></i>
+                        {% endif %}
+                        Start page set
+                    </li>
+                    <li class="list-group-item d-flex align-items-center">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        Has ending pages
+                    </li>
+                </ul>
+                
+                {% if errors %}
+                <div class="alert alert-danger">
+                    <strong>Cannot publish:</strong>
+                    <ul class="mb-0">
+                        {% for error in errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% else %}
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-check mb-3">
+                        <input type="checkbox" name="confirm" class="form-check-input" id="confirm" required>
+                        <label class="form-check-label" for="confirm">
+                            I confirm this story is ready for publication
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-send"></i> Publish Now
+                    </button>
+                    <a href="{% url 'author:edit_story' story.id %}" class="btn btn-secondary">Cancel</a>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

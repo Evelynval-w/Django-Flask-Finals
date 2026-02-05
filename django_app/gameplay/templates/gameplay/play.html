@@ -1,0 +1,311 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Playing: {{ story.title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .story-page {
+        font-size: 1.2rem;
+        line-height: 1.8;
+        min-height: 200px;
+    }
+    .choice-btn {
+        text-align: left;
+        padding: 15px 20px;
+        margin-bottom: 10px;
+        transition: all 0.3s ease;
+    }
+    .choice-btn:hover {
+        transform: translateX(10px);
+    }
+    .dice-result {
+        font-size: 4rem;
+        animation: roll 0.5s ease;
+    }
+    @keyframes roll {
+        0% { transform: rotate(0deg) scale(0.5); }
+        50% { transform: rotate(180deg) scale(1.2); }
+        100% { transform: rotate(360deg) scale(1); }
+    }
+    .path-indicator {
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+    }
+    .path-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--bs-primary);
+    }
+    .fade-in {
+        animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">{{ story.title }}</h5>
+                <div>
+                    <span class="path-indicator" id="path-indicator" title="Your journey">
+                        {% for p in path %}
+                        <span class="path-dot"></span>
+                        {% endfor %}
+                    </span>
+                    <a href="{% url 'gameplay:restart' story.id %}" class="btn btn-sm btn-outline-secondary ms-2">
+                        <i class="bi bi-arrow-counterclockwise"></i> Restart
+                    </a>
+                </div>
+            </div>
+            
+            <div class="card-body">
+                <!-- Illustration -->
+                <div id="illustration-container">
+                    {% if page.illustration_url %}
+                    <img src="{{ page.illustration_url }}" class="img-fluid rounded mb-4" alt="Scene illustration">
+                    {% endif %}
+                </div>
+                
+                <!-- Page Content -->
+                <div id="page-content" class="story-page">
+                    {{ page.text|linebreaks }}
+                </div>
+                
+                <!-- Dice Container (hidden by default) -->
+                <div id="dice-container" class="text-center my-4" style="display: none;">
+                    <div id="dice-display" class="dice-result">🎲</div>
+                    <p id="dice-message" class="mt-2"></p>
+                </div>
+                
+                <!-- Ending Section -->
+                {% if page.is_ending %}
+                <div class="alert alert-success mt-4 fade-in" id="ending-section">
+                    <h3 class="text-center">{{ page.ending_label|default:"The End" }}</h3>
+                    <hr>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="{% url 'gameplay:restart' story.id %}" class="btn btn-primary">
+                            <i class="bi bi-arrow-counterclockwise"></i> Play Again
+                        </a>
+                        <a href="{% url 'stories:detail' story.id %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-info-circle"></i> Story Details
+                        </a>
+                        <a href="{% url 'stories:list' %}" class="btn btn-outline-primary">
+                            <i class="bi bi-collection"></i> More Stories
+                        </a>
+                    </div>
+                </div>
+                {% else %}
+                <!-- Choices -->
+                <hr>
+                <h5>What do you do?</h5>
+                <div id="choices-container">
+                    {% for choice in page.choices %}
+                    <button class="btn btn-outline-primary choice-btn w-100"
+                            data-choice-id="{{ choice.id }}"
+                            data-dice="{{ choice.dice_required|yesno:'true,false' }}"
+                            data-min-roll="{{ choice.min_roll|default:1 }}">
+                        {{ choice.text }}
+                        {% if choice.dice_required %}
+                        <span class="badge bg-warning float-end">🎲 Roll ≥{{ choice.min_roll }}</span>
+                        {% endif %}
+                    </button>
+                    {% empty %}
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle"></i> No choices available. This might be an incomplete story.
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/dice_roller.js' %}"></script>
+<script>
+const storyId = {{ story.id }};
+const sessionKey = "{{ session_key }}";
+const csrfToken = "{{ csrf_token }}";
+
+// Attach click handlers to all choice buttons
+document.querySelectorAll('.choice-btn').forEach(btn => {
+    btn.addEventListener('click', handleChoice);
+});
+
+async function handleChoice() {
+    const choiceId = this.dataset.choiceId;
+    const needsDice = this.dataset.dice === 'true';
+    const minRoll = parseInt(this.dataset.minRoll);
+    
+    // Disable all buttons during processing
+    document.querySelectorAll('.choice-btn').forEach(b => {
+        b.disabled = true;
+        b.classList.add('disabled');
+    });
+    
+    try {
+        const response = await fetch(`/play/${storyId}/choice/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify({
+                choice_id: parseInt(choiceId),
+                session_key: sessionKey
+            })
+        });
+        
+        const result = await response.json();
+        
+        // Handle dice roll display
+        if (result.dice_result) {
+            await showDiceRoll(result.dice_result);
+        }
+        
+        if (result.success) {
+            // Small delay if dice was shown
+            setTimeout(() => {
+                updatePage(result);
+            }, result.dice_result ? 1000 : 0);
+        } else if (result.dice_failed) {
+            // Failed dice roll - re-enable buttons after animation
+            setTimeout(() => {
+                document.querySelectorAll('.choice-btn').forEach(b => {
+                    b.disabled = false;
+                    b.classList.remove('disabled');
+                });
+            }, 1500);
+        } else {
+            alert(result.error || 'Something went wrong');
+            document.querySelectorAll('.choice-btn').forEach(b => {
+                b.disabled = false;
+                b.classList.remove('disabled');
+            });
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Connection error. Please try again.');
+        document.querySelectorAll('.choice-btn').forEach(b => {
+            b.disabled = false;
+            b.classList.remove('disabled');
+        });
+    }
+}
+
+async function showDiceRoll(diceResult) {
+    const container = document.getElementById('dice-container');
+    const display = document.getElementById('dice-display');
+    const message = document.getElementById('dice-message');
+    
+    container.style.display = 'block';
+    
+    // Animate dice roll
+    const diceEmojis = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+    
+    // Rolling animation
+    for (let i = 0; i < 10; i++) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        display.textContent = diceEmojis[Math.floor(Math.random() * 6)];
+    }
+    
+    // Show final result
+    display.textContent = diceEmojis[diceResult.roll - 1];
+    
+    if (diceResult.success) {
+        message.innerHTML = `<span class="text-success"><strong>Rolled ${diceResult.roll}!</strong> (Needed ≥${diceResult.required}) - Success!</span>`;
+    } else {
+        message.innerHTML = `<span class="text-danger"><strong>Rolled ${diceResult.roll}</strong> (Needed ≥${diceResult.required}) - Failed! Try again.</span>`;
+    }
+    
+    return new Promise(resolve => setTimeout(resolve, 500));
+}
+
+function updatePage(result) {
+    const page = result.page;
+    
+    // Hide dice container
+    document.getElementById('dice-container').style.display = 'none';
+    
+    // Update illustration
+    const illustrationContainer = document.getElementById('illustration-container');
+    if (page.illustration_url) {
+        illustrationContainer.innerHTML = `<img src="${page.illustration_url}" class="img-fluid rounded mb-4 fade-in" alt="Scene illustration">`;
+    } else {
+        illustrationContainer.innerHTML = '';
+    }
+    
+    // Update page content with fade effect
+    const pageContent = document.getElementById('page-content');
+    pageContent.classList.remove('fade-in');
+    pageContent.innerHTML = page.text.replace(/\n/g, '<br>');
+    pageContent.classList.add('fade-in');
+    
+    // Update path indicator
+    const pathIndicator = document.getElementById('path-indicator');
+    pathIndicator.innerHTML += '<span class="path-dot"></span>';
+    
+    // Update choices or show ending
+    const choicesContainer = document.getElementById('choices-container');
+    
+    if (page.is_ending || result.is_ending) {
+        // Show ending
+        choicesContainer.innerHTML = `
+            <div class="alert alert-success mt-4 fade-in">
+                <h3 class="text-center">${page.ending_label || result.ending_label || 'The End'}</h3>
+                <hr>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="/play/${storyId}/restart/" class="btn btn-primary">
+                        <i class="bi bi-arrow-counterclockwise"></i> Play Again
+                    </a>
+                    <a href="/story/${storyId}/" class="btn btn-outline-secondary">
+                        <i class="bi bi-info-circle"></i> Story Details
+                    </a>
+                </div>
+            </div>
+        `;
+    } else {
+        // Show new choices
+        let choicesHTML = '<hr><h5>What do you do?</h5>';
+        
+        if (page.choices && page.choices.length > 0) {
+            page.choices.forEach(choice => {
+                const diceAttr = choice.dice_required ? 'true' : 'false';
+                const diceBadge = choice.dice_required 
+                    ? `<span class="badge bg-warning float-end">🎲 Roll ≥${choice.min_roll}</span>` 
+                    : '';
+                
+                choicesHTML += `
+                    <button class="btn btn-outline-primary choice-btn w-100 fade-in"
+                            data-choice-id="${choice.id}"
+                            data-dice="${diceAttr}"
+                            data-min-roll="${choice.min_roll || 1}">
+                        ${choice.text}
+                        ${diceBadge}
+                    </button>
+                `;
+            });
+        } else {
+            choicesHTML += '<div class="alert alert-warning">No choices available.</div>';
+        }
+        
+        choicesContainer.innerHTML = choicesHTML;
+        
+        // Re-attach event listeners to new buttons
+        document.querySelectorAll('.choice-btn').forEach(btn => {
+            btn.addEventListener('click', handleChoice);
+        });
+    }
+}
+</script>
+{% endblock %}

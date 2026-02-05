@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}Moderation Dashboard{% endblock %}
+
+{% block content %}
+<h1><i class="bi bi-shield-check"></i> Moderation Dashboard</h1>
+
+<div class="row mt-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-body">
+                <h3>{{ pending_reports }}</h3>
+                <p class="mb-0">Pending Reports</p>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'moderation:report_list' %}?status=pending" class="text-white">View →</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h3>{{ total_users }}</h3>
+                <p class="mb-0">Total Users</p>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'moderation:user_list' %}" class="text-white">Manage →</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h3>{{ total_stories }}</h3>
+                <p class="mb-0">Total Stories</p>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'moderation:story_list' %}" class="text-white">View →</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-body">
+                <h3>{{ suspended_stories }}</h3>
+                <p class="mb-0">Suspended Stories</p>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'moderation:story_list' %}?status=suspended" class="text-dark">View →</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Quick Actions</div>
+            <div class="list-group list-group-flush">
+                <a href="{% url 'moderation:report_list' %}?status=pending" class="list-group-item list-group-item-action">
+                    <i class="bi bi-flag text-danger"></i> Review Pending Reports
+                </a>
+                <a href="{% url 'moderation:user_list' %}" class="list-group-item list-group-item-action">
+                    <i class="bi bi-people text-primary"></i> Manage Users
+                </a>
+                <a href="{% url 'moderation:story_list' %}" class="list-group-item list-group-item-action">
+                    <i class="bi bi-book text-success"></i> Browse All Stories
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

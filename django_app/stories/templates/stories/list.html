@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}Browse Stories{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-collection"></i> Browse Stories</h1>
+    
+    <form class="d-flex" method="get">
+        <input type="text" name="search" class="form-control me-2" 
+               placeholder="Search stories..." value="{{ search }}">
+        <button type="submit" class="btn btn-outline-primary">
+            <i class="bi bi-search"></i>
+        </button>
+    </form>
+</div>
+
+{% if stories %}
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for story in stories %}
+    <div class="col">
+        <div class="card h-100 story-card">
+            {% if story.illustration_url %}
+            <img src="{{ story.illustration_url }}" class="card-img-top" alt="{{ story.title }}" style="height: 200px; object-fit: cover;">
+            {% else %}
+            <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
+                <i class="bi bi-book display-1 text-white"></i>
+            </div>
+            {% endif %}
+            
+            <div class="card-body">
+                <h5 class="card-title">{{ story.title }}</h5>
+                <p class="card-text text-muted">{{ story.description|truncatewords:20 }}</p>
+                
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="rating">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= story.avg_rating %}
+                            <i class="bi bi-star-fill text-warning"></i>
+                            {% else %}
+                            <i class="bi bi-star text-warning"></i>
+                            {% endif %}
+                        {% endfor %}
+                        <small class="text-muted">({{ story.rating_count }})</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-footer">
+                <a href="{% url 'stories:detail' story.id %}" class="btn btn-primary w-100">
+                    <i class="bi bi-eye"></i> View Story
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if stories.has_other_pages %}
+<nav class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% if stories.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ stories.previous_page_number }}&search={{ search }}">Previous</a>
+        </li>
+        {% endif %}
+        
+        {% for num in stories.paginator.page_range %}
+        <li class="page-item {% if stories.number == num %}active{% endif %}">
+            <a class="page-link" href="?page={{ num }}&search={{ search }}">{{ num }}</a>
+        </li>
+        {% endfor %}
+        
+        {% if stories.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ stories.next_page_number }}&search={{ search }}">Next</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+
+{% else %}
+<div class="text-center py-5">
+    <i class="bi bi-inbox display-1 text-muted"></i>
+    <h3 class="mt-3">No stories found</h3>
+    <p class="text-muted">{% if search %}Try a different search term{% else %}Be the first to create a story!{% endif %}</p>
+</div>
+{% endif %}
+{% endblock %}

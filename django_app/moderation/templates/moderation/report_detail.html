@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Report #{{ report.id }}{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'moderation:dashboard' %}">Moderation</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'moderation:report_list' %}">Reports</a></li>
+        <li class="breadcrumb-item active">Report #{{ report.id }}</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card mb-4">
+            <div class="card-header">Report Details</div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Reporter</dt>
+                    <dd class="col-sm-8">{{ report.user.username }}</dd>
+                    
+                    <dt class="col-sm-4">Story ID</dt>
+                    <dd class="col-sm-8">#{{ report.story_id }}</dd>
+                    
+                    <dt class="col-sm-4">Status</dt>
+                    <dd class="col-sm-8">
+                        <span class="badge {% if report.status == 'pending' %}bg-danger{% elif report.status == 'resolved' %}bg-success{% else %}bg-secondary{% endif %}">
+                            {{ report.status }}
+                        </span>
+                    </dd>
+                    
+                    <dt class="col-sm-4">Reported</dt>
+                    <dd class="col-sm-8">{{ report.created_at }}</dd>
+                    
+                    <dt class="col-sm-4">Reason</dt>
+                    <dd class="col-sm-8">{{ report.reason }}</dd>
+                </dl>
+            </div>
+        </div>
+        
+        {% if story %}
+        <div class="card">
+            <div class="card-header">Reported Story</div>
+            <div class="card-body">
+                <h5>{{ story.title }}</h5>
+                <p class="text-muted">{{ story.description|truncatewords:30 }}</p>
+                <span class="badge bg-{{ story.status }}">{{ story.status }}</span>
+                <a href="{% url 'stories:detail' story.id %}" class="btn btn-sm btn-outline-primary" target="_blank">
+                    View Story
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">Take Action</div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="btn btn-primary">Update Report</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
