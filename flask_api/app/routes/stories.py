@@ -81,7 +81,8 @@ def create_story():
         title=data['title'],
         description=data.get('description', ''),
         author_id=data.get('author_id', 0),
-        status=StoryStatus.DRAFT.value
+        status=StoryStatus.DRAFT.value,
+        illustration_url=data.get('illustration_url')
     )
     
     db.session.add(story)
